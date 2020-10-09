@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GkashProgressBarTheme">
+        <item name="colorAccent">#FFF</item>
+        <item name="android:progressBarStyle">@style/Widget.AppCompat.ProgressBar.Horizontal</item>
+    </style>
+
+    <style name="GkashWebViewTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+
+    </style>
+</resources>
