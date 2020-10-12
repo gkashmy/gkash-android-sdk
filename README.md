@@ -5,8 +5,25 @@ This library allows you to integrate Gkash Payment Gateway into your Android App
 
 ## Usage
 
-This library is implemented using Android WebView. 
+Ensure jcenter is in the root level build.gradle file of an Android Project.
 
+```Gradle
+repositories {
+    jcenter()
+}
+```
+
+
+Include the library reference in the build.gradle file.
+
+```Gradle
+dependencies {
+    implementation 'com.gkash.gkashandroidsdk:gkash-android-sdk:1.0.1'
+}
+```
+
+
+Implement the library as follows. 
 
 ```Java
 // Create instance of PaymentRequest
