@@ -3,11 +3,17 @@ package com.gkash.gkashandroidsdk;
 import android.app.Activity;
 import android.content.Intent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class GkashPayment {
     private static volatile GkashPayment INSTANCE;
     private String hostUrl = "https://api-staging.pay.asia/";
-
     public static int RESULT_OK = 1;
+
+    private List<String> _walletScheme = Arrays.asList("apaylater://app.apaylater.com", "stage-onlinepayment.boostorium.com", "uat.shopee.com.my/universal-link/");
+    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopeemy://");
 
     public static GkashPayment getInstance() {
         if (INSTANCE == null) {
@@ -20,9 +26,14 @@ public class GkashPayment {
         return INSTANCE;
     }
 
+    public List<String> get_walletScheme() {
+        return _walletScheme;
+    }
+
     public void setProductionEnvironment(boolean isProduction) {
         if (isProduction) {
             hostUrl = "https://api.gkash.my/";
+            _walletScheme = _prodWalletScheme;
         }
     }
 

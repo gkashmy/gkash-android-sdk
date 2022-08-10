@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -19,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class GkashPaymentActivity extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ public class GkashPaymentActivity extends AppCompatActivity {
 
     WebView webView;
     ProgressBar progressBar;
+    final private GkashPayment _gkashPayment = GkashPayment.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +68,14 @@ public class GkashPaymentActivity extends AppCompatActivity {
 
             private boolean shouldOverrideUrlLoading(final String url)
             {
-                if (url.contains("tngdigital.com") || url.contains("boost-my.com") || url.contains("alipays")) {
+                Log.d("webview", "shouldOverrideUrlLoading: " + url);
+
+                if (containScheme(url)) {
+                    Log.d("webview", "launching app: " + url);
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                     return true;
                 }
-
                 if (url.startsWith("intent://gkash.my/return")) {
                     try {
                         Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
@@ -174,5 +179,17 @@ public class GkashPaymentActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean containScheme(String inputString) {
+
+        List<String> walletScheme = _gkashPayment.get_walletScheme();
+
+        for (String scheme : walletScheme) {
+            if (inputString.contains(scheme)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
