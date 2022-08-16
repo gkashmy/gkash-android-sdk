@@ -1,36 +1,23 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 ext {
-    bintrayRepo = 'maven' // Name of the Bintray repo you created
-    bintrayName = 'com.gkash.gkashandroidsdk:gkash-android-sdk' // Bintray package name
-
-    publishedGroupId = 'com.gkash.gkashandroidsdk' // Group ID of the SDK which will be added in implementation line of gradle
-    artifact = 'gkash-android-sdk' // Artifact ID of the SDK which will be added in implementation line of gradle
-    libraryVersion = '1.0.3' // Version of the library you created in Bintray
-
-    libraryName = 'Gkash Android Sdk' // It is generally the module name
-    libraryDescription = 'Android SDK for Gkash Payment' // Small description of the library
-
-    siteUrl = 'https://github.com/gkashmy/gkash-android-sdk'
-    gitUrl = 'https://github.com/gkashmy/gkash-android-sdk.git'
-
-    developerId = 'gkashmy'
-    developerName = 'Gkash Sdn Bhd'
-    developerEmail = 'developers@gkash.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-
-    //Bintray Credentials
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-    bintrayUsername = properties.getProperty('BINTRAY_USERNAME')
-    bintrayUserOrg = properties.getProperty('BINTRAY_ORG')
-    bintrayApiKey = properties.getProperty('BINTRAY_API_KEY')
+    PUBLISH_GROUP_ID = 'io.github.gkashmy'
+    PUBLISH_VERSION = '1.0.3'
+    PUBLISH_ARTIFACT_ID = 'gkash-android-sdk'
+    PUBLISH_DESCRIPTION = 'Gkash payment Android SDK'
+    PUBLISH_URL = 'https://github.com/gkashmy/gkash-android-sdk'
+    PUBLISH_LICENSE_NAME = 'The Apache Software License, Version 2.0'
+    PUBLISH_LICENSE_URL =
+            'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    PUBLISH_DEVELOPER_ID = 'gkash'
+    PUBLISH_DEVELOPER_NAME = 'gkash developer'
+    PUBLISH_DEVELOPER_EMAIL = 'developers@gkash.com'
+    PUBLISH_SCM_CONNECTION =
+            'scm:git:github.com/gkashmy/gkash-android-sdk.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION =
+            'scm:git:ssh://github.com/gkashmy/gkash-android-sdk.git'
+    PUBLISH_SCM_URL =
+            'https://github.com/gkashmy/gkash-android-sdk/tree/master'
 }
 
 android {
@@ -40,8 +27,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 3
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -66,4 +53,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
-apply from: 'bintray.script'
+apply from: "C:\\MyGit\\AndroidStudio\\gkash-android-sdk\\scripts\\publish-module.gradle"
