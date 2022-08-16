@@ -9,7 +9,7 @@ Ensure jcenter is in the root level build.gradle file of an Android Project.
 
 ```Gradle
 repositories {
-    jcenter()
+    mavenCentral()
 }
 ```
 
@@ -18,7 +18,7 @@ Include the library reference in the build.gradle file.
 
 ```Gradle
 dependencies {
-    implementation 'com.gkash.gkashandroidsdk:gkash-android-sdk:1.0.1'
+    implementation 'io.github.gkashmy:gkash-android-sdk:1.0.3'
 }
 ```
 
