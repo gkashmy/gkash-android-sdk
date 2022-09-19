@@ -1,14 +1,11 @@
 package com.gkash.gkashandroidsdk;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -16,17 +13,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class GkashPaymentActivity extends AppCompatActivity {
-
-    public static String ACTION_RETURN = "android.intent.action.ACTION_RETURN";
-
-    public static int RESULT_OK = 1;
 
     WebView webView;
     ProgressBar progressBar;
@@ -35,12 +30,11 @@ public class GkashPaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Handle intent (NEW_TASK) from intent://gkash.my/return#Intent;scheme=https;package=com.caller.packagename;action=android.intent.action.ACTION_RETURN;end;
-        // Only applicable if caller task/activity is destroyed and new task/activity is created
-        if (getIntent() != null && getIntent().getAction() != null && getIntent().getAction().equals(ACTION_RETURN)) {
-            Intent intent = getPackageManager().getLaunchIntentForPackage(getIntent().getPackage());
-            startActivity(intent);
+        String action = getIntent().getAction();
+        if (getIntent() != null && !"Payment".equals(action)) {
+            Intent intent = getIntent();
+            Uri uri = intent.getData();
+            PaymentStatusCallback(uri);
             finish();
             return;
         }
@@ -68,38 +62,20 @@ public class GkashPaymentActivity extends AppCompatActivity {
 
             private boolean shouldOverrideUrlLoading(final String url)
             {
-                Log.d("webview", "shouldOverrideUrlLoading: " + url);
+             //   Log.d("webview", "shouldOverrideUrlLoading: " + url);
 
                 if (containScheme(url)) {
-                    Log.d("webview", "launching app: " + url);
+               //     Log.d("webview", "launching app: " + url);
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                     return true;
                 }
-                if (url.startsWith("intent://gkash.my/return")) {
-                    try {
-                        Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                        return true;
-                    }
-                    catch (URISyntaxException e) {
-                        // Not an intent uri
-                        e.printStackTrace();
-                    }
-                }
 
-                if (url.startsWith("intent://")) {
-                    try {
-                        Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-                        startActivity(intent);
-                        finish();
-                        return true;
-                    }
-                    catch (URISyntaxException e) {
-                        // Not an intent uri
-                        e.printStackTrace();
-                    }
+                if (url.startsWith(getIntent().getStringExtra("returnUrl"))) {
+                    Uri uri = Uri.parse(url);
+                    PaymentStatusCallback(uri);
+                    finish();
+                    return true;
                 }
 
                 // Returning true means that application wants to leave the current WebView and handle the url itself, otherwise return false.
@@ -165,14 +141,6 @@ public class GkashPaymentActivity extends AppCompatActivity {
         postData(HostURL, postData);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
     private void postData(String url, String postData) {
         try {
             webView.postUrl(url, postData.getBytes(StandardCharsets.UTF_8));
@@ -182,7 +150,6 @@ public class GkashPaymentActivity extends AppCompatActivity {
     }
 
     private boolean containScheme(String inputString) {
-
         List<String> walletScheme = _gkashPayment.get_walletScheme();
 
         for (String scheme : walletScheme) {
@@ -191,5 +158,30 @@ public class GkashPaymentActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void PaymentStatusCallback(Uri uri){
+        String description = uri.getQueryParameter("description");
+        String cid = uri.getQueryParameter("CID");
+        String POID = uri.getQueryParameter("POID");
+        String status = uri.getQueryParameter("status");
+        String currency = uri.getQueryParameter("currency");
+        String amount = uri.getQueryParameter("amount");
+        String cartid = uri.getQueryParameter("cartid");
+        String PaymentType = uri.getQueryParameter("PaymentType");
+        String Signature = uri.getQueryParameter("signature");
+        String key = getIntent().getStringExtra("signatureKey");
+        if(_gkashPayment.getTransStatusCallback() == null || key == null){
+            return;
+        }
+
+        BigDecimal decAmt = new BigDecimal(amount);
+        PaymentResponse response = new PaymentResponse(description, cid, POID, status, currency, decAmt, cartid
+                ,PaymentType);
+        if (!Signature.equals(response.generateSignature(key))) {
+            response.status = "11 - Pending";
+            response.description = "Signature not match";
+        }
+        _gkashPayment.getTransStatusCallback().onStatusCallback(response);
     }
 }

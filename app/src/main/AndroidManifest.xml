@@ -12,7 +12,7 @@
         <activity android:name=".ResultActivity"
             android:exported="true"/>
         <activity android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true">s
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

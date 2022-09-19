@@ -9,14 +9,12 @@
             android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_RETURN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="gkash.my"
-                    android:pathPrefix="/return"
-                    android:scheme="https" />
+                    android:scheme="gkash" />
             </intent-filter>
         </activity>
     </application>

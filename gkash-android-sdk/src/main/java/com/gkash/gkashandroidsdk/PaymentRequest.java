@@ -24,8 +24,9 @@ public class PaymentRequest {
     private String billingCity;         // Optional
     private String billingState;        // Optional
     private String billingCountry;      // Optional
+    private TransStatusCallback transStatusCallback;
 
-    private String strAmount;
+    private final String strAmount;
 
     private String getSHA512(String input){
         String result = null;
@@ -40,13 +41,14 @@ public class PaymentRequest {
         return result;
     }
 
-    public PaymentRequest(String version, String cid, String signatureKey, String currency, BigDecimal amount, String cartId) {
+    public PaymentRequest(String version, String cid, String signatureKey, String currency, BigDecimal amount, String cartId, TransStatusCallback transStatusCallback) {
         this.version = version;
         this.cid = cid;
         this.signatureKey = signatureKey;
         this.currency = currency;
         this.amount = amount;
         this.cartId = cartId;
+        this.transStatusCallback = transStatusCallback;
 
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
         this.strAmount = decimalFormat.format(amount);
@@ -203,5 +205,13 @@ public class PaymentRequest {
 
     public void setBillingCountry(String billingCountry) {
         this.billingCountry = billingCountry;
+    }
+
+    public TransStatusCallback getTransStatusCallback() {
+        return transStatusCallback;
+    }
+
+    public void setTransStatusCallback(TransStatusCallback transStatusCallback) {
+        this.transStatusCallback = transStatusCallback;
     }
 }
