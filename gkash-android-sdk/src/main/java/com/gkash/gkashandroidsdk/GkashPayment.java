@@ -15,7 +15,7 @@ public class GkashPayment {
     private TransStatusCallback transStatusCallback;
 
     private List<String> _walletScheme = Arrays.asList("apaylater://app.apaylater.com", "stage-onlinepayment.boostorium.com", "uat.shopee.com.my/universal-link/");
-    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopeemy://");
+    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopee.com.my/universal-link");
 
     public static GkashPayment getInstance() {
         if (INSTANCE == null) {

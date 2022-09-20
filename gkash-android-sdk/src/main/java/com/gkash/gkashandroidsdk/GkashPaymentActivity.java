@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -32,6 +33,7 @@ public class GkashPaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String action = getIntent().getAction();
         if (getIntent() != null && !"Payment".equals(action)) {
+            Log.d("GkashPaymentActivity", "onCreate PaymentStatusCallback");
             Intent intent = getIntent();
             Uri uri = intent.getData();
             PaymentStatusCallback(uri);
@@ -62,10 +64,10 @@ public class GkashPaymentActivity extends AppCompatActivity {
 
             private boolean shouldOverrideUrlLoading(final String url)
             {
-             //   Log.d("webview", "shouldOverrideUrlLoading: " + url);
+                Log.d("webview", "shouldOverrideUrlLoading: " + url);
 
                 if (containScheme(url)) {
-               //     Log.d("webview", "launching app: " + url);
+                    Log.d("webview", "launching app: " + url);
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                     return true;
@@ -73,6 +75,7 @@ public class GkashPaymentActivity extends AppCompatActivity {
 
                 if (url.startsWith(getIntent().getStringExtra("returnUrl"))) {
                     Uri uri = Uri.parse(url);
+                    Log.d("webview", "shouldOverrideUrlLoading PaymentStatusCallback");
                     PaymentStatusCallback(uri);
                     finish();
                     return true;
@@ -160,6 +163,14 @@ public class GkashPaymentActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Uri uri = intent.getData();
+        PaymentStatusCallback(uri);
+        finish();
+    }
+
     private void PaymentStatusCallback(Uri uri){
         String description = uri.getQueryParameter("description");
         String cid = uri.getQueryParameter("CID");
@@ -179,6 +190,7 @@ public class GkashPaymentActivity extends AppCompatActivity {
         PaymentResponse response = new PaymentResponse(description, cid, POID, status, currency, decAmt, cartid
                 ,PaymentType);
         if (!Signature.equals(response.generateSignature(key))) {
+            Log.d("GkashPayment", "Signature not match");
             response.status = "11 - Pending";
             response.description = "Signature not match";
         }

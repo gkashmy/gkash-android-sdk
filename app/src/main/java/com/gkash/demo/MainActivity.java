@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements TransStatusCallba
             public void onClick(View view) {
 
                 // Integration Credentials
-                String MerchantId = "M161-U-33";
-                String SignatureKey = "oAhVwtUxfrop4cI";
+                String MerchantId = "M102-U-XXX";
+                String SignatureKey = "YourSignatureKey";
 
                 // Unique transaction cart id
                 Date date = Calendar.getInstance().getTime();

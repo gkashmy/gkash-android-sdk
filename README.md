@@ -18,7 +18,7 @@ Include the library reference in the build.gradle file.
 
 ```Gradle
 dependencies {
-    implementation 'io.github.gkashmy:gkash-android-sdk:1.0.3'
+    implementation 'io.github.gkashmy:gkash-android-sdk:1.0.5'
 }
 ```
 
@@ -27,37 +27,45 @@ Implement the library as follows.
 
 ```Java
 // Create instance of PaymentRequest
-PaymentRequest request = new PaymentRequest("1.5.0", merchantId, signatureKey, "MYR", amount, cartId);
+PaymentRequest request = new PaymentRequest("1.5.0", MerchantId, SignatureKey, "MYR", amount, cartId, MainActivity.this);
+//set your callback url, email ,mobile number and return url
+//return url is your app url scheme
 request.setCallbackUrl("https://paymentdemo.gkash.my/callback.php");
+request.setEmail("test@example.com");
+request.setMobileNo("0123456789");
+request.setReturnUrl("gkash://returntoapp");
 
 // Get instance of GkashPayment
 final GkashPayment gkashPayment = GkashPayment.getInstance();
 
 // Set environment and start payment
 gkashPayment.setProductionEnvironment(false);
-gkashPayment.startPayment(MyActivity.this, request);
+gkashPayment.startPayment(MainActivity.this, request);
 ```
 
 ## Getting the Payment Result
 
-Upon finishing of the WebView Activity, implement [onActivityResult](https://developer.android.com/training/basics/intents/result) to obtain the payment result.
+Upon finishing of the WebView Activity, implement TransStatusCallback to obtain the payment result.
 
 
 ```Java
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    try {
-        super.onActivityResult(requestCode, resultCode, data);
+public class MainActivity extends AppCompatActivity implements TransStatusCallback {
+    @Override
+        public void onStatusCallback(PaymentResponse response) {
+            if (response != null) {
+                String result = "Status: " + response.status + "\n" +
+                        "Description: " + response.description + "\n" +
+                        "CID: " + response.CID + "\n" +
+                        "POID: " + response.POID + "\n" +
+                        "cartid: " + response.cartid + "\n" +
+                        "amount: " + response.amount + "\n" +
+                        "currency: " + response.currency + "\n" +
+                        "PaymentType: " + response.PaymentType;
 
-        if (data != null) {
-            Toast.makeText(MyActivity.this, "Transaction Status: " + data.getStringExtra("status"),
-                    Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, result,
+                        Toast.LENGTH_LONG).show();
+            }
         }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        Toast.makeText(MainActivity.this, ex.toString(), Toast.LENGTH_SHORT).show();
-    }
 }
 ```
 
