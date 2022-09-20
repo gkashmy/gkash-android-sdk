@@ -2,7 +2,9 @@ package com.gkash.gkashandroidsdk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,10 +12,10 @@ import java.util.List;
 public class GkashPayment {
     private static volatile GkashPayment INSTANCE;
     private String hostUrl = "https://api-staging.pay.asia/";
-    public static int RESULT_OK = 1;
+    private TransStatusCallback transStatusCallback;
 
     private List<String> _walletScheme = Arrays.asList("apaylater://app.apaylater.com", "stage-onlinepayment.boostorium.com", "uat.shopee.com.my/universal-link/");
-    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopeemy://");
+    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopee.com.my/universal-link");
 
     public static GkashPayment getInstance() {
         if (INSTANCE == null) {
@@ -37,6 +39,10 @@ public class GkashPayment {
         }
     }
 
+    public TransStatusCallback getTransStatusCallback() {
+        return transStatusCallback;
+    }
+
     public void startPayment(Activity activity, PaymentRequest request) throws IllegalArgumentException {
         if (request == null) throw new IllegalArgumentException("PaymentRequest object is required.");
 
@@ -47,16 +53,20 @@ public class GkashPayment {
         if (request.getAmount() == null) throw new IllegalArgumentException("Parameter amount is required.");
         if (request.getCartId() == null || request.getCartId().isEmpty()) throw new IllegalArgumentException("Parameter cartId is required.");
         if (request.getSignatureKey() == null || request.getSignatureKey().isEmpty()) throw new IllegalArgumentException("Parameter signatureKey is required.");
+        if (request.getTransStatusCallback() == null) throw new IllegalArgumentException("Parameter transStatusCallback is required.");
+
+        this.transStatusCallback = request.getTransStatusCallback();
 
         String defaultReturnUrl;
-        if (request.getReturnUrl() == null && activity.getPackageName() != null) {
-            defaultReturnUrl = "intent://gkash.my/return#Intent;scheme=https;package=" + activity.getPackageName() + ";action=android.intent.action.ACTION_RETURN;end;";
+        if (request.getReturnUrl() == null || request.getReturnUrl().equals("")) {
+            defaultReturnUrl = "gkash://returntoapp";
         } else {
-            defaultReturnUrl = request.getReturnUrl() == null ? "" : request.getReturnUrl();
+            defaultReturnUrl = request.getReturnUrl();
         }
 
         // Intent to Payment WebView
         Intent intent = new Intent(activity, GkashPaymentActivity.class);
+        intent.setAction("Payment");
         intent.putExtra("hostUrl", hostUrl);
         intent.putExtra("version", request.getVersion() == null ? "" : request.getVersion());
         intent.putExtra("cid", request.getCid() == null ? "" : request.getCid());
@@ -77,8 +87,9 @@ public class GkashPayment {
         intent.putExtra("billingCountry", request.getBillingCountry() == null ? "" : request.getBillingCountry());
         intent.putExtra("signature", request.generateSignature() == null ? "" : request.generateSignature());
         intent.putExtra("packageName", activity.getPackageName() == null ? "" : activity.getPackageName());
+        intent.putExtra("signatureKey", request.getSignatureKey() == null ? "" : request.getSignatureKey());
 
-        activity.startActivityForResult(intent, RESULT_OK);
+        activity.startActivity(intent);
     }
 
 }

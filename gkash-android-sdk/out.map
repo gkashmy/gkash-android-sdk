@@ -1,0 +1,122 @@
+# compiler: R8
+# compiler_version: 2.1.86
+# pg_map_id: 3da4411
+# common_typos_disable
+com.gkash.gkashandroidsdk.BuildConfig -> com.gkash.gkashandroidsdk.BuildConfig:
+    1:1:void <init>():6:6 -> <init>
+com.gkash.gkashandroidsdk.GkashPayment -> com.gkash.gkashandroidsdk.GkashPayment:
+    com.gkash.gkashandroidsdk.TransStatusCallback transStatusCallback -> b
+    java.util.List _prodWalletScheme -> d
+    java.util.List _walletScheme -> c
+    java.lang.String hostUrl -> a
+    com.gkash.gkashandroidsdk.GkashPayment INSTANCE -> e
+    1:7:void <init>():12:18 -> <init>
+    1:8:com.gkash.gkashandroidsdk.GkashPayment getInstance():21:28 -> getInstance
+    1:1:com.gkash.gkashandroidsdk.TransStatusCallback getTransStatusCallback():43:43 -> getTransStatusCallback
+    1:1:java.util.List get_walletScheme():32:32 -> get_walletScheme
+    1:2:void setProductionEnvironment(boolean):37:38 -> setProductionEnvironment
+    1:43:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):50:92 -> startPayment
+    44:44:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):56:56 -> startPayment
+    45:45:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):55:55 -> startPayment
+    46:46:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):54:54 -> startPayment
+    47:47:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):53:53 -> startPayment
+    48:48:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):52:52 -> startPayment
+    49:49:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):51:51 -> startPayment
+    50:50:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest) -> startPayment
+    51:51:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):47:47 -> startPayment
+com.gkash.gkashandroidsdk.GkashPaymentActivity -> com.gkash.gkashandroidsdk.GkashPaymentActivity:
+    android.widget.ProgressBar progressBar -> b
+    android.webkit.WebView webView -> a
+    com.gkash.gkashandroidsdk.GkashPayment _gkashPayment -> c
+    1:5:void <init>():25:29 -> <init>
+    1:4:boolean containScheme(java.lang.String):156:159 -> a
+    1:4:boolean access$000(com.gkash.gkashandroidsdk.GkashPaymentActivity,java.lang.String):25 -> a
+    5:27:void PaymentStatusCallback(android.net.Uri):175:197 -> a
+    1:109:void onCreate(android.os.Bundle):33:141 -> onCreate
+    110:112:void postData(java.lang.String,java.lang.String):149:151 -> onCreate
+    110:112:void onCreate(android.os.Bundle):144 -> onCreate
+    1:4:void onNewIntent(android.content.Intent):168:171 -> onNewIntent
+com.gkash.gkashandroidsdk.GkashPaymentActivity$1 -> com.gkash.gkashandroidsdk.GkashPaymentActivity$a:
+    com.gkash.gkashandroidsdk.GkashPaymentActivity this$0 -> a
+    1:1:void <init>(com.gkash.gkashandroidsdk.GkashPaymentActivity):49:49 -> <init>
+    1:13:boolean shouldOverrideUrlLoading(java.lang.String):67:79 -> a
+    14:14:void com.gkash.gkashandroidsdk.GkashPaymentActivity.access$100(com.gkash.gkashandroidsdk.GkashPaymentActivity,android.net.Uri):25:25 -> a
+    14:14:boolean shouldOverrideUrlLoading(java.lang.String):79 -> a
+    15:15:boolean shouldOverrideUrlLoading(java.lang.String):80:80 -> a
+    1:2:void onPageFinished(android.webkit.WebView,java.lang.String):96:97 -> onPageFinished
+    1:2:void onPageStarted(android.webkit.WebView,java.lang.String,android.graphics.Bitmap):90:91 -> onPageStarted
+    1:1:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String):54:54 -> shouldOverrideUrlLoading
+    2:3:boolean shouldOverrideUrlLoading(android.webkit.WebView,android.webkit.WebResourceRequest):61:62 -> shouldOverrideUrlLoading
+com.gkash.gkashandroidsdk.GkashPaymentActivity$2 -> com.gkash.gkashandroidsdk.GkashPaymentActivity$b:
+    com.gkash.gkashandroidsdk.GkashPaymentActivity this$0 -> a
+    1:1:void <init>(com.gkash.gkashandroidsdk.GkashPaymentActivity):101:101 -> <init>
+    1:2:void onProgressChanged(android.webkit.WebView,int):104:105 -> onProgressChanged
+com.gkash.gkashandroidsdk.PaymentRequest -> com.gkash.gkashandroidsdk.PaymentRequest:
+    java.lang.String callbackUrl -> g
+    java.lang.String cartId -> f
+    java.lang.String email -> i
+    java.lang.String returnUrl -> h
+    com.gkash.gkashandroidsdk.TransStatusCallback transStatusCallback -> s
+    java.lang.String firstName -> k
+    java.lang.String mobileNo -> j
+    java.lang.String productDescription -> m
+    java.lang.String lastName -> l
+    java.lang.String billingPostCode -> o
+    java.lang.String billingStreet -> n
+    java.lang.String billingState -> q
+    java.lang.String billingCity -> p
+    java.lang.String billingCountry -> r
+    java.lang.String strAmount -> t
+    java.lang.String version -> a
+    java.lang.String signatureKey -> c
+    java.math.BigDecimal amount -> e
+    java.lang.String cid -> b
+    java.lang.String currency -> d
+    1:11:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal,java.lang.String,com.gkash.gkashandroidsdk.TransStatusCallback):44:54 -> <init>
+    1:1:java.lang.String generateSignature():58:58 -> generateSignature
+    2:7:java.lang.String getSHA512(java.lang.String):34:39 -> generateSignature
+    2:7:java.lang.String generateSignature():59 -> generateSignature
+    1:1:java.math.BigDecimal getAmount():95:95 -> getAmount
+    1:1:java.lang.String getBillingCity():187:187 -> getBillingCity
+    1:1:java.lang.String getBillingCountry():203:203 -> getBillingCountry
+    1:1:java.lang.String getBillingPostCode():179:179 -> getBillingPostCode
+    1:1:java.lang.String getBillingState():195:195 -> getBillingState
+    1:1:java.lang.String getBillingStreet():171:171 -> getBillingStreet
+    1:1:java.lang.String getCallbackUrl():115:115 -> getCallbackUrl
+    1:1:java.lang.String getCartId():107:107 -> getCartId
+    1:1:java.lang.String getCid():71:71 -> getCid
+    1:1:java.lang.String getCurrency():87:87 -> getCurrency
+    1:1:java.lang.String getEmail():131:131 -> getEmail
+    1:1:java.lang.String getFirstName():147:147 -> getFirstName
+    1:1:java.lang.String getLastName():155:155 -> getLastName
+    1:1:java.lang.String getMobileNo():139:139 -> getMobileNo
+    1:1:java.lang.String getProductDescription():163:163 -> getProductDescription
+    1:1:java.lang.String getReturnUrl():123:123 -> getReturnUrl
+    1:1:java.lang.String getSignatureKey():79:79 -> getSignatureKey
+    1:1:java.lang.String getStrAmount():103:103 -> getStrAmount
+    1:1:com.gkash.gkashandroidsdk.TransStatusCallback getTransStatusCallback():211:211 -> getTransStatusCallback
+    1:1:java.lang.String getVersion():63:63 -> getVersion
+    1:1:void setAmount(java.math.BigDecimal):99:99 -> setAmount
+    1:1:void setBillingCity(java.lang.String):191:191 -> setBillingCity
+    1:1:void setBillingCountry(java.lang.String):207:207 -> setBillingCountry
+    1:1:void setBillingPostCode(java.lang.String):183:183 -> setBillingPostCode
+    1:1:void setBillingState(java.lang.String):199:199 -> setBillingState
+    1:1:void setBillingStreet(java.lang.String):175:175 -> setBillingStreet
+    1:1:void setCallbackUrl(java.lang.String):119:119 -> setCallbackUrl
+    1:1:void setCartId(java.lang.String):111:111 -> setCartId
+    1:1:void setCid(java.lang.String):75:75 -> setCid
+    1:1:void setCurrency(java.lang.String):91:91 -> setCurrency
+    1:1:void setEmail(java.lang.String):135:135 -> setEmail
+    1:1:void setFirstName(java.lang.String):151:151 -> setFirstName
+    1:1:void setLastName(java.lang.String):159:159 -> setLastName
+    1:1:void setMobileNo(java.lang.String):143:143 -> setMobileNo
+    1:1:void setProductDescription(java.lang.String):167:167 -> setProductDescription
+    1:1:void setReturnUrl(java.lang.String):127:127 -> setReturnUrl
+    1:1:void setSignatureKey(java.lang.String):83:83 -> setSignatureKey
+    1:1:void setTransStatusCallback(com.gkash.gkashandroidsdk.TransStatusCallback):215:215 -> setTransStatusCallback
+    1:1:void setVersion(java.lang.String):67:67 -> setVersion
+com.gkash.gkashandroidsdk.PaymentResponse -> com.gkash.gkashandroidsdk.PaymentResponse:
+    1:9:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal,java.lang.String,java.lang.String):17:25 -> <init>
+    1:1:java.lang.String generateSignature(java.lang.String):29:29 -> generateSignature
+    2:7:java.lang.String getSHA512(java.lang.String):36:41 -> generateSignature
+    2:7:java.lang.String generateSignature(java.lang.String):30 -> generateSignature

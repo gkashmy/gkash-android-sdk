@@ -1,12 +1,11 @@
 package com.gkash.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -31,7 +30,6 @@ public class ResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String action = intent.getAction();
-        Uri data = intent.getData();
 
         String cartId_value = intent.getStringExtra("cartId");
         String currency_value = intent.getStringExtra("currency");
@@ -41,7 +39,6 @@ public class ResultActivity extends AppCompatActivity {
         String paymentType_value = intent.getStringExtra("paymentType");
 
         Log.i("ResultIntent", "action: " + action);
-        Log.i("ResultIntent", "data: " + data.toString());
         Log.i("ResultIntent", "cartid: " + cartId_value);
         Log.i("ResultIntent", "currency: " + currency_value);
         Log.i("ResultIntent", "amount: " + amount_value);

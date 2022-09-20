@@ -1,9 +1,5 @@
 package com.gkash.demo;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gkash.gkashandroidsdk.GkashPayment;
 import com.gkash.gkashandroidsdk.PaymentRequest;
+import com.gkash.gkashandroidsdk.PaymentResponse;
+import com.gkash.gkashandroidsdk.TransStatusCallback;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TransStatusCallback {
 
     Button submitButton;
     EditText amountInput;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 // Integration Credentials
-                String MerchantId = "M161-U-20001";
+                String MerchantId = "M102-U-XXX";
                 String SignatureKey = "YourSignatureKey";
 
                 // Unique transaction cart id
@@ -50,10 +50,13 @@ public class MainActivity extends AppCompatActivity {
 
                 BigDecimal amount = new BigDecimal(amountInput.getText().toString());
 
-                PaymentRequest request = new PaymentRequest("1.5.0", MerchantId, SignatureKey, "MYR", amount, cartId);
+                PaymentRequest request = new PaymentRequest("1.5.0", MerchantId, SignatureKey, "MYR", amount, cartId, MainActivity.this);
+                //set your callback url, email ,mobile number and return url
+                //return url is your app url scheme
                 request.setCallbackUrl("https://paymentdemo.gkash.my/callback.php");
                 request.setEmail("test@example.com");
                 request.setMobileNo("0123456789");
+                request.setReturnUrl("gkash://returntoapp");
 
                 gkashPayment.setProductionEnvironment(false);
 
@@ -63,34 +66,32 @@ public class MainActivity extends AppCompatActivity {
                 catch (IllegalArgumentException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
+    public void onStatusCallback(PaymentResponse response) {
+        if (response != null) {
+            String result = "Status: " + response.status + "\n" +
+                    "Description: " + response.description + "\n" +
+                    "CID: " + response.CID + "\n" +
+                    "POID: " + response.POID + "\n" +
+                    "cartid: " + response.cartid + "\n" +
+                    "amount: " + response.amount + "\n" +
+                    "currency: " + response.currency + "\n" +
+                    "PaymentType: " + response.PaymentType;
 
-            if (data != null) {
-                String result = "Status: " + data.getStringExtra("status") + "\n" +
-                        "Description: " + data.getStringExtra("description") + "\n" +
-                        "CID: " + data.getStringExtra("CID") + "\n" +
-                        "POID: " + data.getStringExtra("POID") + "\n" +
-                        "cartid: " + data.getStringExtra("cartid") + "\n" +
-                        "amount: " + data.getStringExtra("amount") + "\n" +
-                        "currency: " + data.getStringExtra("currency") + "\n" +
-                        "PaymentType: " + data.getStringExtra("PaymentType");
-
-                Toast.makeText(MainActivity.this, result,
-                        Toast.LENGTH_LONG).show();
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Toast.makeText(MainActivity.this, ex.toString(),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, result,
+                    Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            intent.putExtra("cartId", response.cartid);
+            intent.putExtra("currency", response.currency);
+            intent.putExtra("amount", response.amount.toString());
+            intent.putExtra("status", response.status);
+            intent.putExtra("description", response.description);
+            intent.putExtra("paymentType", response.PaymentType);
+            startActivity(intent);
         }
     }
 }
