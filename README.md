@@ -18,7 +18,7 @@ Include the library reference in the build.gradle file.
 
 ```Gradle
 dependencies {
-    implementation 'io.github.gkashmy:gkash-android-sdk:2.0.0'
+    implementation 'io.github.gkashmy:gkash-android-sdk:2.0.1'
 }
 ```
 
