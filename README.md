@@ -1,4 +1,4 @@
-# Gkash Payment SDK for Android
+# Gkash Payment SDK for Android (E-Commerce)
 
 This library allows you to integrate Gkash Payment Gateway into your Android App.
 
