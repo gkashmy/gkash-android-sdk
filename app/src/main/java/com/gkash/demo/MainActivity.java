@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements TransStatusCallba
                 request.setMobileNo("0123456789");
                 request.setReturnUrl("gkash://returntoapp");
 
-                gkashPayment.setProductionEnvironment(false);
+                //Set to false if staging environment
+                gkashPayment.setProductionEnvironment(true);
 
                 try {
                     gkashPayment.startPayment(MainActivity.this, request);

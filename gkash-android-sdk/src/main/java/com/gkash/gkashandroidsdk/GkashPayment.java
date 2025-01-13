@@ -14,8 +14,8 @@ public class GkashPayment {
     private String hostUrl = "https://api-staging.pay.asia/";
     private TransStatusCallback transStatusCallback;
 
-    private List<String> _walletScheme = Arrays.asList("apaylater://app.apaylater.com", "stage-onlinepayment.boostorium.com", "uat.shopee.com.my/universal-link/");
-    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopee.com.my/universal-link");
+    private List<String> _walletScheme = Arrays.asList("apaylater://app.apaylater.com", "stage-onlinepayment.boostorium.com", "uat.shopee.com.my/universal-link/", "sarawaktest://");
+    private final List<String> _prodWalletScheme = Arrays.asList("apaylater://app.apaylater.com", "boost-my.com", "shopee.com.my/universal-link", "sarawaktest://");
 
     public static GkashPayment getInstance() {
         if (INSTANCE == null) {
