@@ -21,14 +21,11 @@ ext {
 }
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 35
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 32
-        versionCode 7
-        versionName "2.0.1"
+        targetSdkVersion 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -40,6 +37,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.gkash.gkashandroidsdk'
 
 }
 

@@ -14,11 +14,26 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            android:id="@+id/userid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="M102-U-xxx"
+            android:layout_marginTop="16dp" />
+
+        <EditText
+            android:id="@+id/key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="SignatureKey"
+            android:layout_marginTop="16dp" />
+
+        <EditText
             android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Amount"
             android:inputType="numberDecimal"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp" />
 
         <Button
@@ -26,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit" />
-
     </LinearLayout>
 
 

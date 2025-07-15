@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "29.0.3"
+  //  compileSdkVersion 35
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.gkash.demo"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 35
         versionCode 1
         versionName "1.0"
 
@@ -20,6 +20,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.gkash.demo'
 
 }
 
