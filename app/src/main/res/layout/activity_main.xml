@@ -18,13 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="M102-U-xxx"
-            android:layout_marginTop="16dp" />
+            android:visibility="invisible" />
 
         <EditText
             android:id="@+id/key"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="SignatureKey"
+            android:visibility="gone"
             android:layout_marginTop="16dp" />
 
         <EditText
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:hint="Amount"
             android:inputType="numberDecimal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="1dp"
             android:layout_marginBottom="16dp" />
 
         <Button

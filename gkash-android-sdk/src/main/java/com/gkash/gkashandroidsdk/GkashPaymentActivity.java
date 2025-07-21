@@ -1,7 +1,12 @@
 package com.gkash.gkashandroidsdk;
 
 import android.annotation.TargetApi;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -20,14 +25,15 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class GkashPaymentActivity extends AppCompatActivity {
-
     WebView webView;
     ProgressBar progressBar;
+    private String _defaultBrowser;
     final private GkashPayment _gkashPayment = GkashPayment.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +46,8 @@ public class GkashPaymentActivity extends AppCompatActivity {
             finish();
             return;
         }
-
+        _defaultBrowser = getDefaultBrowserPackageName(this);
+        Log.d("webview", "_defaultBrowser: " + _defaultBrowser);
         setContentView(R.layout.activity_payment);
 
         webView = findViewById(R.id.gkashWebView);
@@ -65,22 +72,31 @@ public class GkashPaymentActivity extends AppCompatActivity {
             private boolean shouldOverrideUrlLoading(final String url)
             {
                 Log.d("webview", "shouldOverrideUrlLoading: " + url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                PackageManager pm = getPackageManager();
+                ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
-                if (containScheme(url)) {
-                    Log.d("webview", "launching app: " + url);
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(browserIntent);
-                    return true;
+                if (resolveInfo != null) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    String appName = resolveInfo.loadLabel(pm).toString();
+
+                    Log.d("AppInfo", "Handled by: " + appName + " (" + packageName + ")");
+                    if(!Objects.equals(packageName, _defaultBrowser)){
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        Log.d("webview", "launching app: " + url);
+                        startActivity(browserIntent);
+                        return true;
+                    }
                 }
-
-                if (url.startsWith(getIntent().getStringExtra("returnUrl"))) {
-                    Uri uri = Uri.parse(url);
-                    Log.d("webview", "shouldOverrideUrlLoading PaymentStatusCallback");
-                    PaymentStatusCallback(uri);
-                    finish();
-                    return true;
+                else {
+                    if (url.startsWith(getIntent().getStringExtra("returnUrl"))) {
+                        Uri uri = Uri.parse(url);
+                        Log.d("webview", "shouldOverrideUrlLoading PaymentStatusCallback");
+                        PaymentStatusCallback(uri);
+                        finish();
+                        return true;
+                    }
                 }
-
                 // Returning true means that application wants to leave the current WebView and handle the url itself, otherwise return false.
                 return false;
             }
@@ -152,15 +168,19 @@ public class GkashPaymentActivity extends AppCompatActivity {
         }
     }
 
-    private boolean containScheme(String inputString) {
-        List<String> walletScheme = _gkashPayment.get_walletScheme();
+    public String getDefaultBrowserPackageName(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://"));
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, 0);
 
-        for (String scheme : walletScheme) {
-            if (inputString.contains(scheme)) {
-                return true;
+        for (ResolveInfo info : resolveInfos) {
+            String pkg = info.activityInfo.packageName;
+            // Exclude system chooser ("android")
+            if (!"android".equals(pkg)) {
+                return pkg;
             }
         }
-        return false;
+        return null; // No browser found
     }
 
     @Override
