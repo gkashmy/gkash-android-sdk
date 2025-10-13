@@ -31,6 +31,10 @@ public class GkashPayment {
         }
     }
 
+    public String getHostUrl() {
+        return hostUrl;
+    }
+
     public TransStatusCallback getTransStatusCallback() {
         return transStatusCallback;
     }

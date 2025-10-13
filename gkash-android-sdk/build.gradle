@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 ext {
     PUBLISH_GROUP_ID = 'io.github.gkashmy'
-    PUBLISH_VERSION = '2.0.1'
+    PUBLISH_VERSION = '2.0.5'
     PUBLISH_ARTIFACT_ID = 'gkash-android-sdk'
     PUBLISH_DESCRIPTION = 'Gkash payment Android SDK'
     PUBLISH_URL = 'https://github.com/gkashmy/gkash-android-sdk'
@@ -51,4 +51,4 @@ dependencies {
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
-//apply from: "C:\\MyGit\\AndroidStudio\\gkash-android-sdk\\scripts\\publish-module.gradle"
+apply from: "C:\\MyGit\\AndroidStudio\\gkash-android-sdk\\scripts\\publish-module.gradle"

@@ -1,77 +1,88 @@
 # compiler: R8
-# compiler_version: 2.1.86
-# pg_map_id: 3da4411
+# compiler_version: 8.3.36
 # common_typos_disable
+# {"id":"com.android.tools.r8.mapping","version":"2.2"}
+# pg_map_id: 1e63c2b
+# pg_map_hash: SHA-256 1e63c2beb4f4a8f469e875d789e05f01744c5b1139ce95047893ea7c1bc9cc62
 com.gkash.gkashandroidsdk.BuildConfig -> com.gkash.gkashandroidsdk.BuildConfig:
+# {"id":"sourceFile","fileName":"BuildConfig.java"}
     1:1:void <init>():6:6 -> <init>
 com.gkash.gkashandroidsdk.GkashPayment -> com.gkash.gkashandroidsdk.GkashPayment:
-    com.gkash.gkashandroidsdk.TransStatusCallback transStatusCallback -> b
-    java.util.List _prodWalletScheme -> d
-    java.util.List _walletScheme -> c
+# {"id":"sourceFile","fileName":"GkashPayment.java"}
     java.lang.String hostUrl -> a
-    com.gkash.gkashandroidsdk.GkashPayment INSTANCE -> e
-    1:7:void <init>():12:18 -> <init>
-    1:8:com.gkash.gkashandroidsdk.GkashPayment getInstance():21:28 -> getInstance
-    1:1:com.gkash.gkashandroidsdk.TransStatusCallback getTransStatusCallback():43:43 -> getTransStatusCallback
-    1:1:java.util.List get_walletScheme():32:32 -> get_walletScheme
-    1:2:void setProductionEnvironment(boolean):37:38 -> setProductionEnvironment
-    1:43:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):50:92 -> startPayment
-    44:44:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):56:56 -> startPayment
-    45:45:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):55:55 -> startPayment
-    46:46:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):54:54 -> startPayment
-    47:47:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):53:53 -> startPayment
-    48:48:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):52:52 -> startPayment
-    49:49:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):51:51 -> startPayment
-    50:50:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest) -> startPayment
-    51:51:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):47:47 -> startPayment
+    com.gkash.gkashandroidsdk.TransStatusCallback transStatusCallback -> b
+    com.gkash.gkashandroidsdk.GkashPayment INSTANCE -> c
+    1:3:void <init>():12:14 -> <init>
+    1:8:com.gkash.gkashandroidsdk.GkashPayment getInstance():18:25 -> getInstance
+    1:1:com.gkash.gkashandroidsdk.TransStatusCallback getTransStatusCallback():35:35 -> getTransStatusCallback
+    1:1:void setProductionEnvironment(boolean):30:30 -> setProductionEnvironment
+    1:15:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):42:56 -> startPayment
+    16:46:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):54:84 -> startPayment
+    47:47:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):48:48 -> startPayment
+    48:48:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):47:47 -> startPayment
+    49:49:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):46:46 -> startPayment
+    50:50:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):45:45 -> startPayment
+    51:51:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):44:44 -> startPayment
+    52:52:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):43:43 -> startPayment
+    53:53:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):42:42 -> startPayment
+    54:54:void startPayment(android.app.Activity,com.gkash.gkashandroidsdk.PaymentRequest):39:39 -> startPayment
 com.gkash.gkashandroidsdk.GkashPaymentActivity -> com.gkash.gkashandroidsdk.GkashPaymentActivity:
-    android.widget.ProgressBar progressBar -> b
+# {"id":"sourceFile","fileName":"GkashPaymentActivity.java"}
     android.webkit.WebView webView -> a
-    com.gkash.gkashandroidsdk.GkashPayment _gkashPayment -> c
-    1:5:void <init>():25:29 -> <init>
-    1:4:boolean containScheme(java.lang.String):156:159 -> a
-    1:4:boolean access$000(com.gkash.gkashandroidsdk.GkashPaymentActivity,java.lang.String):25 -> a
-    5:27:void PaymentStatusCallback(android.net.Uri):175:197 -> a
-    1:109:void onCreate(android.os.Bundle):33:141 -> onCreate
-    110:112:void postData(java.lang.String,java.lang.String):149:151 -> onCreate
-    110:112:void onCreate(android.os.Bundle):144 -> onCreate
-    1:4:void onNewIntent(android.content.Intent):168:171 -> onNewIntent
-com.gkash.gkashandroidsdk.GkashPaymentActivity$1 -> com.gkash.gkashandroidsdk.GkashPaymentActivity$a:
+    android.widget.ProgressBar progressBar -> b
+    java.lang.String _defaultBrowser -> c
+    com.gkash.gkashandroidsdk.GkashPayment _gkashPayment -> d
+    int $r8$clinit -> e
+      # {"id":"com.android.tools.r8.synthesized"}
+    1:5:void <init>():32:36 -> <init>
+    1:23:void PaymentStatusCallback(android.net.Uri):195:217 -> a
+    1:8:java.lang.String getDefaultBrowserPackageName(android.content.Context):172:179 -> getDefaultBrowserPackageName
+    1:119:void onCreate(android.os.Bundle):39:157 -> onCreate
+    120:122:void postData(java.lang.String,java.lang.String):165:167 -> onCreate
+    120:122:void onCreate(android.os.Bundle):160 -> onCreate
+    1:4:void onNewIntent(android.content.Intent):188:191 -> onNewIntent
+com.gkash.gkashandroidsdk.GkashPaymentActivity$1 -> a.a:
+# {"id":"sourceFile","fileName":"GkashPaymentActivity.java"}
     com.gkash.gkashandroidsdk.GkashPaymentActivity this$0 -> a
-    1:1:void <init>(com.gkash.gkashandroidsdk.GkashPaymentActivity):49:49 -> <init>
-    1:13:boolean shouldOverrideUrlLoading(java.lang.String):67:79 -> a
-    14:14:void com.gkash.gkashandroidsdk.GkashPaymentActivity.access$100(com.gkash.gkashandroidsdk.GkashPaymentActivity,android.net.Uri):25:25 -> a
-    14:14:boolean shouldOverrideUrlLoading(java.lang.String):79 -> a
-    15:15:boolean shouldOverrideUrlLoading(java.lang.String):80:80 -> a
-    1:2:void onPageFinished(android.webkit.WebView,java.lang.String):96:97 -> onPageFinished
-    1:2:void onPageStarted(android.webkit.WebView,java.lang.String,android.graphics.Bitmap):90:91 -> onPageStarted
-    1:1:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String):54:54 -> shouldOverrideUrlLoading
-    2:3:boolean shouldOverrideUrlLoading(android.webkit.WebView,android.webkit.WebResourceRequest):61:62 -> shouldOverrideUrlLoading
-com.gkash.gkashandroidsdk.GkashPaymentActivity$2 -> com.gkash.gkashandroidsdk.GkashPaymentActivity$b:
+    1:57:void <init>(com.gkash.gkashandroidsdk.GkashPaymentActivity):0:56 -> <init>
+    1:85:boolean shouldOverrideUrlLoading(java.lang.String):0:84 -> a
+    86:86:java.lang.String com.gkash.gkashandroidsdk.GkashPaymentActivity.access$000(com.gkash.gkashandroidsdk.GkashPaymentActivity):32:32 -> a
+    86:86:boolean shouldOverrideUrlLoading(java.lang.String):84 -> a
+    87:98:boolean shouldOverrideUrlLoading(java.lang.String):84:95 -> a
+    99:99:void com.gkash.gkashandroidsdk.GkashPaymentActivity.access$100(com.gkash.gkashandroidsdk.GkashPaymentActivity,android.net.Uri):32:32 -> a
+    99:99:boolean shouldOverrideUrlLoading(java.lang.String):95 -> a
+    100:100:boolean shouldOverrideUrlLoading(java.lang.String):96:96 -> a
+    1:114:void onPageFinished(android.webkit.WebView,java.lang.String):0:113 -> onPageFinished
+    1:108:void onPageStarted(android.webkit.WebView,java.lang.String,android.graphics.Bitmap):0:107 -> onPageStarted
+    1:70:boolean shouldOverrideUrlLoading(android.webkit.WebView,android.webkit.WebResourceRequest):0:69 -> shouldOverrideUrlLoading
+    71:132:boolean shouldOverrideUrlLoading(android.webkit.WebView,java.lang.String):0:61 -> shouldOverrideUrlLoading
+com.gkash.gkashandroidsdk.GkashPaymentActivity$2 -> a.b:
+# {"id":"sourceFile","fileName":"GkashPaymentActivity.java"}
     com.gkash.gkashandroidsdk.GkashPaymentActivity this$0 -> a
-    1:1:void <init>(com.gkash.gkashandroidsdk.GkashPaymentActivity):101:101 -> <init>
-    1:2:void onProgressChanged(android.webkit.WebView,int):104:105 -> onProgressChanged
+    1:118:void <init>(com.gkash.gkashandroidsdk.GkashPaymentActivity):0:117 -> <init>
+    1:122:void onProgressChanged(android.webkit.WebView,int):0:121 -> onProgressChanged
 com.gkash.gkashandroidsdk.PaymentRequest -> com.gkash.gkashandroidsdk.PaymentRequest:
-    java.lang.String callbackUrl -> g
-    java.lang.String cartId -> f
-    java.lang.String email -> i
-    java.lang.String returnUrl -> h
-    com.gkash.gkashandroidsdk.TransStatusCallback transStatusCallback -> s
-    java.lang.String firstName -> k
-    java.lang.String mobileNo -> j
-    java.lang.String productDescription -> m
-    java.lang.String lastName -> l
-    java.lang.String billingPostCode -> o
-    java.lang.String billingStreet -> n
-    java.lang.String billingState -> q
-    java.lang.String billingCity -> p
-    java.lang.String billingCountry -> r
-    java.lang.String strAmount -> t
+# {"id":"sourceFile","fileName":"PaymentRequest.java"}
     java.lang.String version -> a
-    java.lang.String signatureKey -> c
-    java.math.BigDecimal amount -> e
     java.lang.String cid -> b
+    java.lang.String signatureKey -> c
     java.lang.String currency -> d
+    java.math.BigDecimal amount -> e
+    java.lang.String cartId -> f
+    java.lang.String callbackUrl -> g
+    java.lang.String returnUrl -> h
+    java.lang.String email -> i
+    java.lang.String mobileNo -> j
+    java.lang.String firstName -> k
+    java.lang.String lastName -> l
+    java.lang.String productDescription -> m
+    java.lang.String billingStreet -> n
+    java.lang.String billingPostCode -> o
+    java.lang.String billingCity -> p
+    java.lang.String billingState -> q
+    java.lang.String billingCountry -> r
+    com.gkash.gkashandroidsdk.TransStatusCallback transStatusCallback -> s
+    java.lang.String strAmount -> t
     1:11:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal,java.lang.String,com.gkash.gkashandroidsdk.TransStatusCallback):44:54 -> <init>
     1:1:java.lang.String generateSignature():58:58 -> generateSignature
     2:7:java.lang.String getSHA512(java.lang.String):34:39 -> generateSignature
@@ -116,7 +127,10 @@ com.gkash.gkashandroidsdk.PaymentRequest -> com.gkash.gkashandroidsdk.PaymentReq
     1:1:void setTransStatusCallback(com.gkash.gkashandroidsdk.TransStatusCallback):215:215 -> setTransStatusCallback
     1:1:void setVersion(java.lang.String):67:67 -> setVersion
 com.gkash.gkashandroidsdk.PaymentResponse -> com.gkash.gkashandroidsdk.PaymentResponse:
+# {"id":"sourceFile","fileName":"PaymentResponse.java"}
     1:9:void <init>(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal,java.lang.String,java.lang.String):17:25 -> <init>
     1:1:java.lang.String generateSignature(java.lang.String):29:29 -> generateSignature
     2:7:java.lang.String getSHA512(java.lang.String):36:41 -> generateSignature
     2:7:java.lang.String generateSignature(java.lang.String):30 -> generateSignature
+com.gkash.gkashandroidsdk.TransStatusCallback -> com.gkash.gkashandroidsdk.TransStatusCallback:
+# {"id":"sourceFile","fileName":"TransStatusCallback.java"}

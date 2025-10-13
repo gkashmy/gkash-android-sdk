@@ -26,7 +26,9 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GkashPaymentActivity extends AppCompatActivity {
@@ -34,6 +36,8 @@ public class GkashPaymentActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private String _defaultBrowser;
     final private GkashPayment _gkashPayment = GkashPayment.getInstance();
+    private static final String WECHAT_CHECK_MWEB_PREFIX = "https://wx.tenpay.com/cgi-bin/mmpayweb-bin/checkmweb";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,14 @@ public class GkashPaymentActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 PackageManager pm = getPackageManager();
                 ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+
+                if(url.startsWith(WECHAT_CHECK_MWEB_PREFIX)){
+                    Log.d("AppInfo", "add header to wechat");
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Referer", _gkashPayment.getHostUrl());
+                    webView.loadUrl(url, headers);
+                    return true;
+                }
 
                 if (resolveInfo != null) {
                     String packageName = resolveInfo.activityInfo.packageName;

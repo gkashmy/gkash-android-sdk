@@ -1,52 +1,59 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-task androidSourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
-    if (project.plugins.findPlugin("com.android.library")) {
-        from android.sourceSets.main.java.srcDirs
-    } else {
-        from sourceSets.main.java.srcDirs
-    }
-}
-
-artifacts {
-    archives androidSourcesJar
-}
-
 group = PUBLISH_GROUP_ID
 version = PUBLISH_VERSION
+
+// Generates sources.jar
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+// Generates javadoc.jar (required by Central Portal)
+task androidJavadocJar(type: Jar) {
+    archiveClassifier.set('javadoc')
+    // You can customize this to include actual javadoc or just create an empty jar
+    from "$buildDir/tmp/javadoc" // Create empty dir or add actual javadoc
+
+    doFirst {
+        // Create empty javadoc directory if it doesn't exist
+        file("$buildDir/tmp/javadoc").mkdirs()
+    }
+}
 
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                // The coordinates of the library, being set from variables that
-                // we'll set up later
                 groupId PUBLISH_GROUP_ID
                 artifactId PUBLISH_ARTIFACT_ID
                 version PUBLISH_VERSION
 
-                // Two artifacts, the `aar` (or `jar`) and the sources
-                if (project.plugins.findPlugin("com.android.library")) {
+                // Use the Android release component
+                if (components.findByName("release") != null) {
                     from components.release
-                } else {
-                    artifact("$buildDir/libs/${project.getName()}-${version}.jar")
                 }
 
-                artifact androidSourcesJar
+                // ✅ Add AAR artifact explicitly
+                artifact("$buildDir/outputs/aar/${project.name}-release.aar")
 
-                // Mostly self-explanatory metadata
+                // Add required artifacts for Central Portal
+                artifact androidSourcesJar
+                artifact androidJavadocJar
+
                 pom {
                     name = PUBLISH_ARTIFACT_ID
                     description = PUBLISH_DESCRIPTION
                     url = PUBLISH_URL
+
                     licenses {
                         license {
                             name = PUBLISH_LICENSE_NAME
                             url = PUBLISH_LICENSE_URL
                         }
                     }
+
                     developers {
                         developer {
                             id = PUBLISH_DEVELOPER_ID
@@ -55,8 +62,6 @@ afterEvaluate {
                         }
                     }
 
-                    // Version control info - if you're using GitHub, follow the
-                    // format as seen here
                     scm {
                         connection = PUBLISH_SCM_CONNECTION
                         developerConnection = PUBLISH_SCM_DEVELOPER_CONNECTION
@@ -65,13 +70,99 @@ afterEvaluate {
                 }
             }
         }
+
+        // Publish to local repository for bundle creation
+        repositories {
+            maven {
+                name = "LocalRepo"
+                url = uri("$buildDir/repos")
+            }
+        }
     }
 }
 
-ext["signing.keyId"] = rootProject.ext["signing.keyId"]
-ext["signing.password"] = rootProject.ext["signing.password"]
-ext["signing.secretKeyRingFile"] = rootProject.ext["signing.secretKeyRingFile"]
+// Signing configuration
+ext["signing.keyId"] = rootProject.findProperty("signing.keyId")
+ext["signing.password"] = rootProject.findProperty("signing.password")
+ext["signing.secretKeyRingFile"] = rootProject.findProperty("signing.secretKeyRingFile")
 
 signing {
     sign publishing.publications
+}
+
+// Task to create bundle for Central Portal manual upload with correct structure
+task createCentralPortalBundle(type: Zip) {
+    dependsOn 'publishReleasePublicationToLocalRepoRepository'
+
+    archiveFileName = "${PUBLISH_ARTIFACT_ID}-${PUBLISH_VERSION}-bundle.zip"
+    destinationDirectory = file("$buildDir/central-portal")
+
+    // Create proper Maven structure: groupId/artifactId/version/
+    def groupPath = PUBLISH_GROUP_ID.replace('.', '/')
+    def targetPath = "${groupPath}/${PUBLISH_ARTIFACT_ID}/${PUBLISH_VERSION}"
+
+    // Include only the essential files in the correct structure
+    from("$buildDir/repos/${groupPath}/${PUBLISH_ARTIFACT_ID}/${PUBLISH_VERSION}") {
+        include "*.pom"
+        include "*.jar"
+        include "*.aar"
+        include "*.asc"
+        // Include checksums that Gradle generates
+        include "*.md5"
+        include "*.sha1"
+        include "*.sha256"
+        include "*.sha512"
+        // Exclude maven-metadata files
+        exclude "**/maven-metadata*"
+
+        // Place files directly in the correct Maven path
+        into "${targetPath}"
+    }
+
+    doLast {
+        println "========================================="
+        println "Central Portal Bundle Created Successfully!"
+        println "File: ${archiveFile.get().asFile}"
+        println "Size: ${String.format('%.2f', archiveFile.get().asFile.length() / 1024.0)} KB"
+        println "========================================="
+        println "Bundle structure:"
+
+        // List the contents of the ZIP for verification
+        zipTree(archiveFile.get().asFile).visit { FileVisitDetails details ->
+            if (!details.isDirectory()) {
+                println "  ${details.relativePath}"
+            }
+        }
+
+        println "========================================="
+        println "Next steps:"
+        println "1. Go to https://central.sonatype.com/publishing"
+        println "2. Click 'Publish Component'"
+        println "3. Upload the bundle file: ${archiveFile.get().asFile.name}"
+        println "4. Set a deployment name and click 'Publish Component'"
+        println "========================================="
+    }
+}
+
+// Simplified verification task
+task verifyBundleContents {
+    dependsOn 'publishReleasePublicationToLocalRepoRepository'
+
+    doLast {
+        def repoDir = file("$buildDir/repos")
+        println "Checking files in: ${repoDir.absolutePath}"
+
+        if (!repoDir.exists()) {
+            println "Repository directory doesn't exist yet. Run publishReleasePublicationToLocalRepoRepository first."
+            return
+        }
+
+        def foundFiles = []
+        repoDir.traverse(type: groovy.io.FileType.FILES) { file ->
+            foundFiles << file.name
+        }
+
+        println "Files found:"
+        foundFiles.sort().each { println "  - $it" }
+    }
 }
