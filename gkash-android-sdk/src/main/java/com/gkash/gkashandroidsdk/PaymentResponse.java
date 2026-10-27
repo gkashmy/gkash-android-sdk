@@ -13,6 +13,7 @@ public class PaymentResponse {
     public BigDecimal amount;
     public String cartid;
     public String PaymentType;
+    public String epkey;
 
     public PaymentResponse(String description, String CID, String POID, String status, String currency, BigDecimal amount, String cartid, String paymentType) {
         this.description = description;

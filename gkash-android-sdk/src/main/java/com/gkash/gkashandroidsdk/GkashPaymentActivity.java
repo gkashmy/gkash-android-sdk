@@ -21,8 +21,17 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -142,7 +151,8 @@ public class GkashPaymentActivity extends AppCompatActivity {
         webSettings.setBuiltInZoomControls(true);
         webSettings.setDisplayZoomControls(false);
 
-        String HostURL = getIntent().getStringExtra("hostUrl") + "api/paymentform.aspx";
+        boolean hostToHost = getIntent().getBooleanExtra("hostToHost", false);
+        String HostURL = getIntent().getStringExtra("hostUrl") + (hostToHost ? "api/payment/submit" : "api/paymentform.aspx");
         String postData = "";
 
         try {
@@ -163,13 +173,103 @@ public class GkashPaymentActivity extends AppCompatActivity {
                     "&returnurl=" + URLEncoder.encode(getIntent().getStringExtra("returnUrl"), "UTF-8") +
                     "&callbackurl=" + URLEncoder.encode(getIntent().getStringExtra("callbackUrl"), "UTF-8") +
                     "&v_productdesc=" + URLEncoder.encode(getIntent().getStringExtra("productDescription"), "UTF-8") +
+                    "&recurringtype=" + URLEncoder.encode(getIntent().getStringExtra("recurringType"), "UTF-8") +
+                    "&epkey=" + URLEncoder.encode(getIntent().getStringExtra("epKey"), "UTF-8") +
                     "&signature=" + URLEncoder.encode(getIntent().getStringExtra("signature"), "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        postData(HostURL, postData);
+        if (hostToHost) {
+            // Host to host returns JSON instead of a payment page, so post it directly
+            submitHostToHost(HostURL, postData);
+        } else {
+            postData(HostURL, postData);
+        }
+    }
+
+    private void submitHostToHost(final String url, final String postData) {
+        progressBar.setIndeterminate(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                String body;
+                try {
+                    connection = (HttpURLConnection) new URL(url).openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setDoOutput(true);
+                    connection.setConnectTimeout(30000);
+                    connection.setReadTimeout(60000);
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    connection.setRequestProperty("Accept", "application/json");
+
+                    OutputStream os = connection.getOutputStream();
+                    os.write(postData.getBytes(StandardCharsets.UTF_8));
+                    os.close();
+
+                    int code = connection.getResponseCode();
+                    InputStream is = code >= 400 ? connection.getErrorStream() : connection.getInputStream();
+                    body = readStream(is);
+                    Log.d("GkashPayment", "Host to host response (" + code + "): " + body);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    body = null;
+                } finally {
+                    if (connection != null) connection.disconnect();
+                }
+
+                final String responseBody = body;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HostToHostStatusCallback(responseBody);
+                        finish();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private String readStream(InputStream is) throws IOException {
+        if (is == null) return "";
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        reader.close();
+        return sb.toString();
+    }
+
+    private void HostToHostStatusCallback(String body) {
+        try {
+            JSONObject json = new JSONObject(body);
+            DeliverStatus(
+                    json.optString("description", null),
+                    json.optString("CID", null),
+                    json.optString("POID", null),
+                    json.optString("status", null),
+                    json.optString("currency", null),
+                    json.optString("amount", null),
+                    json.optString("cartid", null),
+                    json.optString("PaymentType", null),
+                    json.optString("epkey", null),
+                    json.optString("signature", null));
+        } catch (Exception e) {
+            Log.d("GkashPayment", "Host to host response is not valid JSON: " + body);
+            if (_gkashPayment.getTransStatusCallback() == null) return;
+
+            PaymentResponse response = new PaymentResponse(
+                    body == null ? "Unable to reach payment server" : "Invalid response from payment server",
+                    getIntent().getStringExtra("cid"), null, "Request failed",
+                    getIntent().getStringExtra("currency"), new BigDecimal(getIntent().getStringExtra("amount")),
+                    getIntent().getStringExtra("cartId"), null);
+            response.epkey = getIntent().getStringExtra("epKey");
+            _gkashPayment.getTransStatusCallback().onStatusCallback(response);
+        }
     }
 
     private void postData(String url, String postData) {
@@ -204,15 +304,21 @@ public class GkashPaymentActivity extends AppCompatActivity {
     }
 
     private void PaymentStatusCallback(Uri uri){
-        String description = uri.getQueryParameter("description");
-        String cid = uri.getQueryParameter("CID");
-        String POID = uri.getQueryParameter("POID");
-        String status = uri.getQueryParameter("status");
-        String currency = uri.getQueryParameter("currency");
-        String amount = uri.getQueryParameter("amount");
-        String cartid = uri.getQueryParameter("cartid");
-        String PaymentType = uri.getQueryParameter("PaymentType");
-        String Signature = uri.getQueryParameter("signature");
+        DeliverStatus(
+                uri.getQueryParameter("description"),
+                uri.getQueryParameter("CID"),
+                uri.getQueryParameter("POID"),
+                uri.getQueryParameter("status"),
+                uri.getQueryParameter("currency"),
+                uri.getQueryParameter("amount"),
+                uri.getQueryParameter("cartid"),
+                uri.getQueryParameter("PaymentType"),
+                uri.getQueryParameter("epkey"),
+                uri.getQueryParameter("signature"));
+    }
+
+    private void DeliverStatus(String description, String cid, String POID, String status, String currency,
+                               String amount, String cartid, String PaymentType, String epkey, String Signature){
         String key = getIntent().getStringExtra("signatureKey");
         if(_gkashPayment.getTransStatusCallback() == null || key == null){
             return;
@@ -221,7 +327,8 @@ public class GkashPaymentActivity extends AppCompatActivity {
         BigDecimal decAmt = new BigDecimal(amount);
         PaymentResponse response = new PaymentResponse(description, cid, POID, status, currency, decAmt, cartid
                 ,PaymentType);
-        if (!Signature.equals(response.generateSignature(key))) {
+        response.epkey = epkey;
+        if (Signature == null || !Signature.equals(response.generateSignature(key))) {
             Log.d("GkashPayment", "Signature not match");
             response.status = "11 - Pending";
             response.description = "Signature not match";

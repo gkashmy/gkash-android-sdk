@@ -1,161 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/screenBackground"
+    android:fillViewport="true"
     tools:context=".ResultActivity">
 
-    <TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="32dp"
-        android:layout_margin="16dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="Return Result" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/cartId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Cart ID" />
+        <!-- Summary card -->
+        <LinearLayout
+            style="@style/Card"
+            android:gravity="center_horizontal"
+            android:paddingTop="28dp"
+            android:paddingBottom="28dp">
 
-    <TextView
-        android:id="@+id/cartId_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/cartId"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:textSize="16sp" />
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Result"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/currency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/cartId_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Currency" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/currency_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/currency"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/currency_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="MYR" />
 
-    <TextView
-        android:id="@+id/amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/currency_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Amount" />
+                <TextView
+                    android:id="@+id/amount_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    tools:text="1.00" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/amount_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/amount"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:textSize="16sp" />
+            <TextView
+                android:id="@+id/status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_status"
+                android:paddingLeft="16dp"
+                android:paddingTop="6dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="6dp"
+                android:textColor="@color/statusPending"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="88 - Transferred" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/amount_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Status" />
+            <TextView
+                android:id="@+id/description_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp"
+                tools:text="Payment successful" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/status_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/status"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:textSize="16sp" />
+        <!-- Details card -->
+        <LinearLayout
+            style="@style/Card"
+            android:layout_marginTop="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/status_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Description" />
+            <LinearLayout style="@style/DetailRow">
 
-    <TextView
-        android:id="@+id/description_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/cartId"
+                    style="@style/DetailLabel"
+                    android:text="Cart ID" />
 
-    <TextView
-        android:id="@+id/paymentType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/description_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="Payment Type" />
+                <TextView
+                    android:id="@+id/cartId_value"
+                    style="@style/DetailValue"
+                    tools:text="20261026153000" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/paymentType_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/paymentType"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
-        android:textSize="16sp" />
+            <View style="@style/Divider" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout style="@style/DetailRow">
+
+                <TextView
+                    android:id="@+id/paymentType"
+                    style="@style/DetailLabel"
+                    android:text="Payment Type" />
+
+                <TextView
+                    android:id="@+id/paymentType_value"
+                    style="@style/DetailValue"
+                    tools:text="Credit Card" />
+            </LinearLayout>
+
+            <!-- Shown only when the response has an epkey (recurring / bind) -->
+            <LinearLayout
+                android:id="@+id/epkey_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <View style="@style/Divider" />
+
+                <LinearLayout
+                    style="@style/DetailRow"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/epkey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ep Key"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/epkey_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/textPrimary"
+                        android:textIsSelectable="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="AD2C88CF29EB4B129BCB6B8169F784DD" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/back"
+            style="@style/PrimaryButton"
+            android:layout_marginTop="24dp"
+            android:text="Back to Checkout" />
+    </LinearLayout>
+</ScrollView>

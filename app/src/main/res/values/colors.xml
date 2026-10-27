@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#1E5EFF</color>
+    <color name="colorPrimaryDark">#1646C4</color>
+    <color name="colorAccent">#1E5EFF</color>
+
+    <color name="screenBackground">#F3F5F9</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="cardStroke">#E3E7EF</color>
+    <color name="inputStroke">#CCD3DF</color>
+    <color name="textPrimary">#1A1F2B</color>
+    <color name="textSecondary">#6B7385</color>
+    <color name="textHint">#A0A7B5</color>
+    <color name="primaryPressed">#1646C4</color>
+    <color name="primaryTint">#EAF0FF</color>
+
+    <color name="statusSuccess">#1B8A4B</color>
+    <color name="statusSuccessBg">#E4F5EA</color>
+    <color name="statusPending">#B26A00</color>
+    <color name="statusPendingBg">#FFF3DD</color>
+    <color name="statusFailed">#C62828</color>
+    <color name="statusFailedBg">#FDE7E7</color>
 </resources>

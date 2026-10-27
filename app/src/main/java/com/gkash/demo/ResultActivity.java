@@ -1,11 +1,15 @@
 package com.gkash.demo;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -52,5 +56,54 @@ public class ResultActivity extends AppCompatActivity {
         status.setText(status_value);
         description.setText(description_value);
         paymentType.setText(paymentType_value);
+
+        applyStatusStyle(status_value);
+
+        String epkey_value = intent.getStringExtra("epkey");
+        Log.i("ResultIntent", "epkey: " + epkey_value);
+        if (epkey_value != null && !epkey_value.isEmpty()) {
+            TextView epkey = findViewById(R.id.epkey_value);
+            epkey.setText(epkey_value);
+            findViewById(R.id.epkey_row).setVisibility(View.VISIBLE);
+        }
+
+        // Back arrow in the action bar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        Button backButton = findViewById(R.id.back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    // Colour the status pill: 88 = success, 11 = pending, anything else = failed
+    private void applyStatusStyle(String statusValue) {
+        int textColor;
+        int bgColor;
+        if (statusValue != null && statusValue.startsWith("88")) {
+            textColor = R.color.statusSuccess;
+            bgColor = R.color.statusSuccessBg;
+        } else if (statusValue != null && statusValue.startsWith("11")) {
+            textColor = R.color.statusPending;
+            bgColor = R.color.statusPendingBg;
+        } else {
+            textColor = R.color.statusFailed;
+            bgColor = R.color.statusFailedBg;
+        }
+
+        status.setTextColor(ContextCompat.getColor(this, textColor));
+        GradientDrawable background = (GradientDrawable) status.getBackground().mutate();
+        background.setColor(ContextCompat.getColor(this, bgColor));
     }
 }

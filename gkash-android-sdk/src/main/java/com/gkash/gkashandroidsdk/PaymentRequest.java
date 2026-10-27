@@ -24,6 +24,9 @@ public class PaymentRequest {
     private String billingCity;         // Optional
     private String billingState;        // Optional
     private String billingCountry;      // Optional
+    private String recurringType;
+    private String epKey;               // Optional
+    private boolean hostToHost;         // Optional
     private TransStatusCallback transStatusCallback;
 
     private final String strAmount;
@@ -205,6 +208,30 @@ public class PaymentRequest {
 
     public void setBillingCountry(String billingCountry) {
         this.billingCountry = billingCountry;
+    }
+
+    public String getRecurringType() {
+        return recurringType;
+    }
+
+    public void setRecurringType(String recurringType) {
+        this.recurringType = recurringType;
+    }
+
+    public String getEpKey() {
+        return epKey;
+    }
+
+    public void setEpKey(String epKey) {
+        this.epKey = epKey;
+    }
+
+    public boolean isHostToHost() {
+        return hostToHost;
+    }
+
+    public void setHostToHost(boolean hostToHost) {
+        this.hostToHost = hostToHost;
     }
 
     public TransStatusCallback getTransStatusCallback() {

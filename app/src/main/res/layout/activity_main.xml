@@ -1,49 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/screenBackground"
+    android:fillViewport="true"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        android:padding="16dp">
 
-        <EditText
-            android:id="@+id/userid"
-            android:layout_width="match_parent"
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="M102-U-xxx"
-            android:visibility="invisible" />
+            android:layout_marginTop="8dp"
+            android:text="Checkout Demo"
+            android:textColor="@color/textPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/key"
-            android:layout_width="match_parent"
+        <!-- Merchant ID and environment from Settings, filled in MainActivity -->
+        <TextView
+            android:id="@+id/environment_label"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="SignatureKey"
-            android:visibility="gone"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/textSecondary"
+            android:textSize="14sp"
+            tools:text="M102-U-xxx · Staging" />
 
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Amount"
-            android:inputType="numberDecimal"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="16dp" />
+        <!-- Amount card, shared by every payment option below -->
+        <LinearLayout style="@style/Card">
 
-        <Button
-            android:id="@+id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Submit" />
+            <TextView
+                style="@style/CardTitle"
+                android:text="Amount" />
+
+            <TextView
+                style="@style/CardSubtitle"
+                android:text="Used for Submit, Bind and Recurring." />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/bg_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="MYR"
+                    android:textColor="@color/textSecondary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/amount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="0.00"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:textColor="@color/textPrimary"
+                    android:textColorHint="@color/textHint"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Payment card -->
+        <LinearLayout
+            style="@style/Card"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="Payment" />
+
+            <TextView
+                style="@style/CardSubtitle"
+                android:text="Pay once, or bind a card for future charges." />
+
+            <Button
+                android:id="@+id/submit"
+                style="@style/PrimaryButton"
+                android:layout_marginTop="20dp"
+                android:text="Submit" />
+
+            <Button
+                android:id="@+id/bind"
+                style="@style/SecondaryButton"
+                android:layout_marginTop="12dp"
+                android:text="Bind" />
+        </LinearLayout>
+
+        <!-- Recurring card -->
+        <LinearLayout
+            style="@style/Card"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="Recurring" />
+
+            <TextView
+                style="@style/CardSubtitle"
+                android:text="Charge a bound card host-to-host with its Ep Key." />
+
+            <TextView
+                style="@style/FieldLabel"
+                android:text="EP KEY" />
+
+            <EditText
+                android:id="@+id/epkey"
+                style="@style/FieldInput"
+                android:hint="Enter Ep Key"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/recurring"
+                style="@style/PrimaryButton"
+                android:layout_marginTop="20dp"
+                android:text="Recurring" />
+        </LinearLayout>
     </LinearLayout>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

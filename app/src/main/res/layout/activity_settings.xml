@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screenBackground"
+    android:fillViewport="true"
+    tools:context=".SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Credentials card -->
+        <LinearLayout style="@style/Card">
+
+            <TextView
+                style="@style/CardTitle"
+                android:text="Credentials" />
+
+            <TextView
+                style="@style/CardSubtitle"
+                android:text="Issued by Gkash for your merchant account." />
+
+            <TextView
+                style="@style/FieldLabel"
+                android:text="MERCHANT ID" />
+
+            <EditText
+                android:id="@+id/merchant_id"
+                style="@style/FieldInput"
+                android:hint="M102-U-xxx"
+                android:inputType="text|textNoSuggestions" />
+
+            <TextView
+                style="@style/FieldLabel"
+                android:text="SIGNATURE KEY" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/bg_input"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp">
+
+                <EditText
+                    android:id="@+id/signature_key"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="Enter Signature Key"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/textPrimary"
+                    android:textColorHint="@color/textHint"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/toggle_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Show"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Environment card -->
+        <LinearLayout
+            style="@style/Card"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/CardTitle"
+                        android:text="Production" />
+
+                    <TextView
+                        android:id="@+id/environment_hint"
+                        style="@style/CardSubtitle"
+                        tools:text="Off: payments go to staging." />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/production"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/save"
+            style="@style/PrimaryButton"
+            android:layout_marginTop="24dp"
+            android:text="Save" />
+    </LinearLayout>
+</ScrollView>
